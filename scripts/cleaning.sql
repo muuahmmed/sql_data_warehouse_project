@@ -215,3 +215,8 @@ select * from silver.erp_loc_a101;
 
  select * from silver.erp_px_cat_g1v2;
 
+ --------------------------------------------------------------------------------------------------------------------------------------------------
+
+ exec bronze.load_bronze
+ exec silver.load_silver
+
