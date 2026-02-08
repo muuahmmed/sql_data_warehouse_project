@@ -130,3 +130,50 @@ where sls_sales != sls_quantity * sls_price
 	or sls_quantity is null 
 	or sls_sales <= 0 or sls_quantity <= 0 or sls_price <=0
 	order by sls_sales, sls_quantity, sls_price;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+insert into silver.erp_cust_az12(cid, bdate, gen)
+select 
+	case 
+		when cid like '%NAS%' 
+			then SUBSTRING(cid, 4, LEN(cid))
+		else cid
+	end cid,
+	case 
+		when bdate > getdate()
+			then Null
+		else bdate
+	end as bdate, 
+	CASE 
+		WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE', 'FEMAL') THEN 'Female'
+		WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+		WHEN gen IS NULL OR TRIM(gen) = '' OR UPPER(TRIM(gen)) = 'NULL' THEN 'n/a'
+		ELSE 'n/a' 
+	END AS gen
+from bronze.erp_cust_az12 ;
+--------------------------------------------------------------------------------------------------------------------
+
+select
+	gen,
+	CASE 
+		WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE', 'FEMAL') THEN 'Female'
+		WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+		WHEN gen IS NULL OR TRIM(gen) = '' OR UPPER(TRIM(gen)) = 'NULL' THEN 'n/a'
+		ELSE 'n/a' 
+	END AS gen
+from bronze.erp_cust_az12
+SELECT COUNT(*) 
+FROM bronze.erp_cust_az12 
+WHERE gen IS NULL;
+
+select distinct bdate from bronze.erp_cust_az12 where bdate <'1924-01-01' or bdate > getdate()
+
+
+select distinct bdate from silver.erp_cust_az12 
+	 where  bdate > getdate();
+
+
+select distinct gen from silver.erp_cust_az12
+
+select * 
+from silver.erp_cust_az12;
