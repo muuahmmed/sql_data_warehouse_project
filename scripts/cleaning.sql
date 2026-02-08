@@ -177,3 +177,31 @@ select distinct gen from silver.erp_cust_az12
 
 select * 
 from silver.erp_cust_az12;
+--------------------------------------------------------------------
+insert into silver.erp_loc_a101(cid, cntry)
+select
+	replace(cid, '-', '') as cid,
+	CASE WHEN TRIM(cntry) = 'DE' THEN 'Germany'
+		 WHEN TRIM(cntry) IN ('US', 'USA') THEN 'United States'
+		 WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
+		 ELSE TRIM(cntry)
+	END AS cntry
+from bronze.erp_loc_a101;
+-------------------------------------------------------------------
+
+select distinct cntry from bronze.erp_loc_a101;
+
+select 
+	CASE WHEN TRIM(cntry) = 'DE' THEN 'Germany'
+		 WHEN TRIM(cntry) IN ('US', 'USA') THEN 'United States'
+		 WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
+		 ELSE TRIM(cntry)
+	END AS cntry
+from bronze.erp_loc_a101;
+
+select distinct cntry from silver.erp_loc_a101;
+
+select * from silver.erp_loc_a101;
+ -------------------------------------------------------------------
+
+
